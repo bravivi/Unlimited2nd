@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC  "-//mybatis.org//DTD Mapper  3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 속성의 값으로 이름 충돌을 방지 -->
+<mapper namespace="Mentor">
+
+	<!-- 멘토 회원 정보 등록 -->
+	<insert id="mentorInfoRegist" parameterType="hs.mentor.dto.MentorDTO">
+		insert into mentor(id,nation,edu_language1,edu_language2,edu_language3 )
+		values
+		(#{id},#{nation},#{edu_language1,jdbcType=VARCHAR},#{edu_language2,jdbcType=VARCHAR},#{edu_language3,jdbcType=VARCHAR})
+	</insert>
+
+</mapper>

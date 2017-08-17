@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC  "-//mybatis.org//DTD Mapper  3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 20170803정해선 작성 -->
+<!-- namespace 속성의 값으로 이름 충돌을 방지 -->
+<mapper namespace="Admin">
+
+	<!-- 관리자 - 회원검색 클릭시 전체 정보를 불러들임 -->
+	<select id="adminMemberAllList" resultType="hs.member.dto.MemberDTO">
+		select * from member
+		order by name asc
+	</select>
+	
+	<!-- 관리자 - 정보 불러들이기 -->
+	<select id="adminSearchMember" resultType="hs.member.dto.MemberDTO">
+		select * from member
+		where id=#{id}
+	</select>
+</mapper>

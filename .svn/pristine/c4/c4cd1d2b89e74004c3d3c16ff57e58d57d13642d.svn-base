@@ -1,0 +1,5 @@
+package min.notice.service;
+
+public class NoticeCommentAddService {
+
+}

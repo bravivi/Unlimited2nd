@@ -1,0 +1,88 @@
+package min.point.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import min.point.dto.PointHistoryDTO;
+import min.point.dto.RefundRequestDTO;
+
+@Repository
+public class PointDAO {
+	@Autowired
+	SqlSessionTemplate template;
+	public SqlSessionTemplate getTemplate() {
+		return template;
+	}
+	private static String namespace = "mapper.Point.";
+	
+	public List<Object> getBuyHistory() {
+		// TODO Auto-generated method stub
+
+			return template.selectList(namespace+"getBuyHistory");
+
+	}
+	
+	public List<Object> getSellHistory() {
+		// TODO Auto-generated method stub
+		
+			return template.selectList(namespace+"getSellHistory");
+	}
+	
+	public List<Object> getCRHistory() {
+		// TODO Auto-generated method stub
+			return template.selectList(namespace+"getCRHistory");
+	}
+
+	public List<Object> getPointHistory(String id) {
+		// TODO Auto-generated method stub
+		return template.selectList(namespace+"getMbPointHistory", id);
+	}
+
+	public List<Object> getRefundRequestList() {
+		// TODO Auto-generated method stub
+		return template.selectList(namespace+"getRefundRequestList");
+	}
+
+	public int getPoint(String id) {
+		// TODO Auto-generated method stub
+		
+		return template.selectOne(namespace+"getPoint", id);
+	}
+
+	public void pointChange(Map<String, Object>map) {
+		// TODO Auto-generated method stub
+		template.update(namespace+"pointChange", map);
+	}
+
+	public void updateCR(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		template.insert(namespace+"insertCR", map);
+		
+	}
+
+	public void insertBuyHistory(PointHistoryDTO buyerPointHistoryDTO) {
+		// TODO Auto-generated method stub
+		template.insert(namespace+"insertBuyHistory",buyerPointHistoryDTO);
+		
+	}
+
+	public void insertSellHistory(PointHistoryDTO sellerPointHistoryDTO) {
+		// TODO Auto-generated method stub
+		template.insert(namespace+"insertSellHistory",sellerPointHistoryDTO);
+	}
+
+	public void refundRequest(RefundRequestDTO refundRequestDTO) {
+		// TODO Auto-generated method stub
+		template.insert(namespace+"insertRefundRequest", refundRequestDTO);
+	}
+
+	public void refundRequestCheck(int no) {
+		// TODO Auto-generated method stub
+		template.insert(namespace+"refundDone", no);
+		
+	}
+}

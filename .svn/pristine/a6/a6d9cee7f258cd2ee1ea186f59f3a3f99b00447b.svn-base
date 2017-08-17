@@ -1,0 +1,5 @@
+package hs.member.service;
+
+public class PwChangeService {
+
+}

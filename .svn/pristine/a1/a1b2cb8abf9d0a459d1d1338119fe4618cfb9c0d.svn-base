@@ -1,0 +1,64 @@
+package kjy.rating_history.dto;
+
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class AvgDTO {
+	private int avgts;
+	private int avgfr;
+	private int avgpr;
+	private int avgwoc;
+	private int avgpl;
+	private int totalavg;
+	private String mentor_id;
+	private int rank;
+	public int getRank() {
+		return rank;
+	}
+	public void setRank(int rank) {
+		this.rank = rank;
+	}
+	public String getMentor_id() {
+		return mentor_id;
+	}
+	public void setMentor_id(String mentor_id) {
+		this.mentor_id = mentor_id;
+	}
+	public int getAvgts() {
+		return avgts;
+	}
+	public void setAvgts(int avgts) {
+		this.avgts = avgts;
+	}
+	public int getAvgfr() {
+		return avgfr;
+	}
+	public void setAvgfr(int avgfr) {
+		this.avgfr = avgfr;
+	}
+	public int getAvgpr() {
+		return avgpr;
+	}
+	public void setAvgpr(int avgpr) {
+		this.avgpr = avgpr;
+	}
+	public int getAvgwoc() {
+		return avgwoc;
+	}
+	public void setAvgwoc(int avgwoc) {
+		this.avgwoc = avgwoc;
+	}
+	public int getAvgpl() {
+		return avgpl;
+	}
+	public void setAvgpl(int avgpl) {
+		this.avgpl = avgpl;
+	}
+	public int getTotalavg() {
+		return totalavg;
+	}
+	public void setTotalavg(int totalavg) {
+		this.totalavg = totalavg;
+	}
+	
+}

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.Point">
+	<select id="getPoint" parameterType="String" resultType="int">
+	select point from member where id=#{id}
+	</select>
+
+	<select id="getMbPointHistory" parameterType="String"
+		resultType="min.point.dto.PointHistoryDTO">
+		(select
+		dealing_point, point_before, point_after,
+		dealing_date, opponent ,why
+		from buyhistory
+		where id = #{id})
+		union all
+		(select
+		dealing_point, point_before, point_after,
+		dealing_date, opponent ,why
+		from sellhistory
+		where id =
+		#{id}) union all
+		(select
+		dealing_point, point_before, point_after,
+		dealing_date, opponent, why from c_rhistory
+		where id=#{id})
+		order by dealing_date desc
+	</select>
+	<!-- 테이블 내역 번호들 죄다 no로 고쳐야댐 -->
+	<select id="getNo" resultType="int" parameterType="String">
+		select
+		max(no) from C_RHISTORY
+	</select>
+	<!-- 이것도 DTO 안맞을테고 -->
+	<insert id="insertCR" parameterType="java.util.Map">
+		insert
+		into c_rhistory(no, dealing_point, point_before, point_after,
+		dealing_date, id, why)
+		values(cr_seq.nextval, #{dealing_point}, #{point_before},
+		#{dealing_point}+#{point_before}, 
+		to_char(sysdate,'YYYY/mm/dd hh24:mi:SS'),#{id}, #{why})
+	</insert>
+
+	<!-- 이것도 안맞을테고 id부분이 -->
+	<update id="pointChange" parameterType="java.util.Map">
+		update
+		member set
+		point=point+#{dealing_point}
+		where id = #{id}
+	</update>
+
+
+	<!-- 이거 dto 새로해줘야댐 -->
+	<insert id="insertRefundRequest" parameterType="min.point.dto.RefundRequestDTO">
+		insert
+		into
+		pointrefundrequest(no, id, dealing_point, done, request_date,
+		refund_bank, refund_accountant)
+		values(refundrequest_seq.nextval, #{id},
+		#{dealing_point}, 'N' ,to_char(sysdate, 'YYYY/mm/dd hh24:mi:SS')
+		,#{refund_bank}, #{refund_accountant})
+	</insert>
+
+	<!-- 역시나 dto -->
+	<select id="getBuyHistory" parameterType="String"
+		resultType="min.point.dto.PointHistoryDTO">
+		select
+		* from buyhistory
+		order by dealing_date desc
+	</select>
+	<!-- 역시나 dto -->
+	<select id="getSellHistory" parameterType="String"
+		resultType="min.point.dto.PointHistoryDTO">
+		select
+		* from sellhistory
+		order by dealing_date desc
+	</select>
+	<!-- 역시나 dto -->
+	<select id="getCRHistory" parameterType="String"
+		resultType="min.point.dto.PointHistoryDTO">
+		select
+		* from c_rhistory
+		order by dealing_date desc
+	</select>
+
+	<!-- 환전요청 dto 만들기 -->
+	<select id="getRefundRequestList" resultType="min.point.dto.RefundRequestDTO">
+		select
+		* from pointrefundrequest
+		order by request_date desc
+	</select>
+
+	<!-- 테이블에 request_no 를 no로 바꾸기 -->
+	<update id="refundDone" parameterType="int">
+		update
+		pointrefundrequest
+		set done='Y' where no = #{no}
+	</update>
+
+	<!-- 역시나 dto -->
+	<insert id="insertSellHistory" parameterType="min.point.dto.PointHistoryDTO">
+		insert
+		into sellhistory(no, dealing_point, point_before, point_after,
+		dealing_date, buyer, seller, why)
+		values(sell_seq.nextval, #{dealing_point},
+		#{point_before}, #{point_after},
+		to_char(sysdate, 'YYYY/mm/dd hh24:mi:SS'),#{opponent}, #{id}, '판매')
+	</insert>
+
+	<!-- 역시나 dto -->
+	<insert id="insertBuyHistory" parameterType="min.point.dto.PointHistoryDTO">
+		insert
+		into buyhistory(no, dealing_point, point_before, point_after,
+		dealing_date, buyer, seller, why)
+		values(buy_seq.nextval, #{dealing_point},
+		#{point_before}, #{point_after},
+		to_char(sysdate, 'YYYY/mm/dd hh24:mi:SS'),#{opponent}, #{id}, '판매')
+	</insert>
+
+</mapper>

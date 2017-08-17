@@ -1,0 +1,49 @@
+package hs.admin.dao;
+
+import java.util.HashMap;
+/*
+ * 20170802 정해선 작성
+ * */
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.stereotype.Repository;
+
+import hs.studypage.dto.StudyPageDTO;
+
+@Repository
+public class AdminDAO {
+
+	@Inject
+	SqlSessionTemplate template;
+
+	
+	public int getSearchListCount(String id, String name,String nationSelect) {
+		String searchCall = "";
+		if (!"".equals(id)) {
+			if ("all".equals(nationSelect)) {
+				searchCall = "(subject like '%' || '" + nationSelect + "' || '%' ) or ( name like '%' || '" + nationSelect
+						+ "' || '%') or ( content like '%' || '" + nationSelect + "' || '%')";
+			} else if ("subject".equals(nationSelect)) {
+				searchCall = " subject like '%' || '" + nationSelect + "' || '%'";
+			} else if ("name".equals(nationSelect)) {
+				searchCall = " name like '%' || '" + nationSelect + "' || '%'";
+			} else if ("content".equals(nationSelect)) {
+				searchCall = " content like '%' || '" + nationSelect + "' || '%'";
+			}
+		}
+		Map map = new HashMap();
+		map.put("value", searchCall);
+		// System.out.println(map.get("value"));
+		int count = template.selectOne("getSearchListCount", map);
+		return count;
+	}
+
+	// 멘티 수강 내역 가저옴
+	public List<StudyPageDTO> historyStudyInfo(StudyPageDTO studyPageDTO) {
+		return template.selectList("historyStudyInfo", studyPageDTO);
+	}
+}
